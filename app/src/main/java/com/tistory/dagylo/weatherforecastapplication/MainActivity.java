@@ -21,6 +21,9 @@ import com.tistory.dagylo.weatherforecastapplication.model.WeatherForecast;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     /* Forecast Weather App */
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager pager;
     /* end of the F.W.A */
 
+    private final String lang = "en";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         /* Forecast Weather App */
-        String city = "Seoul, KR";
-        String lang = "en";
+
 
         cityText = (TextView) findViewById(R.id.cityText);
         temp = (TextView) findViewById(R.id.temp); // today's temperature
@@ -61,13 +64,23 @@ public class MainActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         imgView = (ImageView) findViewById(R.id.condIcon);
 
+        /* end of the F.W.A */
+
+        initPossibleCities();
+    }
+
+    private List<String> possibleCities = new ArrayList<>();
+
+    private void initPossibleCities() {
+        possibleCities.add("Seoul, KR");
+    }
+
+    private void searchWeatherNshow(String city) {
         JSONWeatherTask task = new JSONWeatherTask();
         task.execute(new String[]{city,lang});
 
         JSONForecastWeatherTask task1 = new JSONForecastWeatherTask();
         task1.execute(new String[]{city,lang, forecastDaysNum});
-        /* end of the F.W.A */
-
     }
 
     /* Forecast Weather App */
@@ -160,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onQueryTextSubmit(String query) {
-
+            searchWeatherNshow(possibleCities.get(0));
             return false;
         }
 
