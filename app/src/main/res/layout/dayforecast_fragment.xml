@@ -8,8 +8,8 @@
 
     <!--  Image weather condition -->
     <ImageView android:id="@+id/forCondIcon"
-        android:layout_height="160dp"
-        android:layout_width="160dp" />
+        android:layout_height="150dp"
+        android:layout_width="150dp" />
 
     <TextView
         android:id="@+id/skydescForecast"
@@ -19,7 +19,6 @@
         android:layout_below="@id/forCondIcon"
         android:textSize="16dp">
     </TextView>
-
 
     <TextView
         android:id="@+id/tempForecast"
