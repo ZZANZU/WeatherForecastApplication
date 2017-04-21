@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     /* end of the F.W.A */
 
     private final String lang = "en";
+    private final String TAG = "jyp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,30 @@ public class MainActivity extends AppCompatActivity {
     private List<String> possibleCities = new ArrayList<>();
 
     private void initPossibleCities() {
+        // todo 1
         possibleCities.add("Seoul, KR");
+        possibleCities.add("Hahaha, KR"); // 예시
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+        possibleCities.add("Seoul, KR");
+    }
+
+    private List<String> searchInPossibleCities(String text){
+        List<String> results = new ArrayList<>();
+
+        for (String city:
+                possibleCities) {
+            if (city.contains(text)) {
+                Log.d(TAG, "searchInPossibleCities: "+city);
+                results.add(city);
+            }
+        }
+
+        return results;
     }
 
     private void searchWeatherNshow(String city) {
@@ -179,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            String TAG = "1";
             Log.d(TAG, "onQueryTextChange: "+newText);
+            searchInPossibleCities(newText);
 
             // 검색
             return false;
