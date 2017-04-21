@@ -52,8 +52,11 @@ public class DayForecastFragment extends Fragment {
 
         TextView tempView = (TextView) v.findViewById(R.id.tempForecast);
         TextView descView = (TextView) v.findViewById(R.id.skydescForecast);
-        tempView.setText( (int) (dayForecast.forecastTemp.min - 275.15) + "-" + (int) (dayForecast.forecastTemp.max - 275.15) );
+
+        // 최저 최고온도 색깔 바꿔보자!!
+        tempView.setText( "High : " + (int) (dayForecast.forecastTemp.min - 275.15) + "°C / " + "Low : " + (int) (dayForecast.forecastTemp.max - 275.15) + "°C"); // temperature in fragment
         descView.setText(dayForecast.weather.currentCondition.getDescr());
+
         iconWeather = (ImageView) v.findViewById(R.id.forCondIcon);
         // Now we retrieve the weather icon
         JSONIconWeatherTask task = new JSONIconWeatherTask();
