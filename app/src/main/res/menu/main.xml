@@ -10,6 +10,9 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>
 
-    <!-- todo 2 -->
+    <!--추가(170422)-->
+    <searchable
+        android:label="@string/app_name"
+        android:hint="city, country"/>
 
 </menu>
