@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by user on 2017-04-21.
+ * Created by ChanJoo on 2017-04-21.
  */
 
 public class IntroActivity extends AppCompatActivity {

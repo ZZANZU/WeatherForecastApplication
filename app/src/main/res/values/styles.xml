@@ -12,10 +12,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="tempStyle" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">#FF9933</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">160dp</item>
+    <!-- PagerTitleStrip style -->
+    <style name="PagerTitleStrip">
+        <item name="android:textAppearance">@style/PagerTitleStripTextAppearance</item>
+    </style>
+
+    <style name="PagerTitleStripTextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

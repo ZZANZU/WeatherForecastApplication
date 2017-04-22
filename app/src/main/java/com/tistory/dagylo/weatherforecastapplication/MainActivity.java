@@ -1,6 +1,5 @@
 package com.tistory.dagylo.weatherforecastapplication;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,13 +9,17 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.tistory.dagylo.weatherforecastapplication.adapter.DailyForecastPageAdapter;
@@ -30,70 +33,50 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{//
 
-    /* Forecast Weather App */
     private TextView cityText;
     private TextView condDescr;
     private TextView temp;
-    private TextView press;
-    private TextView windSpeed;
-    private TextView windDeg;
     private TextView unitTemp;
-    private TextView hum;
     private ImageView imgView;
-    private ListView listView; // 도시 검색 리스트
-    private ArrayAdapter<String> adapter; // 도시 리스트 어댑터
+    private ViewPager pager;
+
+    //private ArrayAdapter<String> adapter; // 도시 리스트 어댑터
     private List<String> possibleCities = new ArrayList<>();// 도시 리스트
 
-
-
     private static String forecastDaysNum = "7"; // 7일로 수정.
-    private ViewPager pager;
-    /* end of the F.W.A */
-
     private final String lang = "en";
-    //private final String TAG = "jyp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Action Bar
+        // ToolBar(action bar)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /* Forecast Weather App */
         cityText = (TextView) findViewById(R.id.cityText);
         temp = (TextView) findViewById(R.id.temp); // today's temperature
         unitTemp = (TextView) findViewById(R.id.unittemp); // celcius
-        unitTemp.setText("°C");
+        //unitTemp.setText("°C");//
         condDescr = (TextView) findViewById(R.id.skydesc);
 
         pager = (ViewPager) findViewById(R.id.pager);
         imgView = (ImageView) findViewById(R.id.condIcon);
-        /* end of the F.W.A */
 
+        /* Help Toast */
+        LayoutInflater inflater = getLayoutInflater();
+        View helpLayout = inflater.inflate(R.layout.activity_help,
+                (ViewGroup) findViewById(R.id.custom_toast));
 
-        initPossibleCities();
-
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, possibleCities);//
-
-        //listView = (ListView) findViewById(R.id.list_country);//
-        //listView.setAdapter(adapter);//
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(helpLayout);
+        toast.show();
+        //adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, possibleCities);
     }
 
-    private void initPossibleCities() {
-        // todo 1 여기다가 도시랑 국가 다 써주기.
-        possibleCities.add("Seoul, KR");
-        possibleCities.add("Japan, JP"); // 예시
-        possibleCities.add("Hokkaido, JP");
-        possibleCities.add("Hashimoto, JP");
-        possibleCities.add("Tsukuba-kenkyūgakuen-toshi, JP");
-        possibleCities.add("Higashi-asahimachi, JP");
-        possibleCities.add("Hanabatachō, JP");
-        possibleCities.add("Senzaki, JP");
-
-    }
     // 가능한 city 검색
     private List<String> searchInPossibleCities(String text){
         List<String> results = new ArrayList<>();
@@ -101,11 +84,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         for (String city:
                 possibleCities) {
             if (city.contains(text)) {
-                //Log.d(TAG, "searchInPossibleCities: "+city);
                 results.add(city);
             }
         }
-
         return results;
     }
 
@@ -118,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         task1.execute(new String[]{city,lang, forecastDaysNum});
     }
 
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -128,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
-    /* Forecast Weather App */
+
     private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
 
         @Override
@@ -145,9 +127,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             }catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return weather;
-
         }
 
         // 텍스트, 이미지 뿌려주기
@@ -160,9 +140,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 imgView.setImageBitmap(img);
             }
 
-            cityText.setText(weather.location.getCity() + "," + weather.location.getCountry()); // Seoul, KR
-            temp.setText("" + Math.round((weather.temperature.getTemp() - 275.15))); // ex. 16c(celcius)
-            condDescr.setText(weather.currentCondition.getCondition() + "(" + weather.currentCondition.getDescr() + ")"); // ex. Clear(clear sky)
+            // "City, Country"
+            cityText.setText(weather.location.getCity() + "," + weather.location.getCountry());
+            // ex. 16c(celcius)
+            temp.setText("" + Math.round((weather.temperature.getTemp() - 275.15)));
+            unitTemp.setText("°C");
+            // ex. Clear(clear sky)
+            condDescr.setText(weather.currentCondition.getCondition() + "(" + weather.currentCondition.getDescr() + ")");
 
         }
     }
@@ -179,14 +163,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             try {
                 forecast = JSONWeatherParser.getForecastWeather(data);
                 System.out.println("Weather ["+forecast+"]");
-                // Let's retrieve the icon
-                //weather.iconData = ( (new WeatherHttpClient()).getImage(weather.currentCondition.getIcon()));
 
             }catch (JSONException e) {
                 e.printStackTrace();
             }
             return forecast;
-
         }
 
         // Adapting
@@ -194,46 +175,39 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         protected void onPostExecute(WeatherForecast forecastWeather) {
             super.onPostExecute(forecastWeather);
 
-            DailyForecastPageAdapter adapter = new DailyForecastPageAdapter(Integer.parseInt(forecastDaysNum), getSupportFragmentManager(), forecastWeather);
+            DailyForecastPageAdapter adapter =
+                    new DailyForecastPageAdapter(Integer.parseInt(forecastDaysNum),
+                            getSupportFragmentManager(), forecastWeather);
 
             pager.setAdapter(adapter);
         }
     }
-    /* end of the F.W.A */
-
 
     // SearchView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);//
-        SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem);//
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
 
-        //SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-
-
-        //listView = (ListView)menu.findItem(R.id.list_country);
-        //listView.setAdapter(adapter);
-
+        SearchView searchView = (SearchView)MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("City, Country");
         searchView.setOnQueryTextListener(queryTextListener);
 
         return true;
-
     }
 
     private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
 
         @Override
-        public boolean onQueryTextSubmit(String query) {
-            //searchWeatherNshow(possibleCities.get(0)); // 엔터치면 이 줄이 실행됨. 0 : seoul, get만 바꿈. get할 필요없이 searchinPossivlecities 가 리스트를 뿌리면 그 중의 아이템
+        public boolean onQueryTextSubmit(String query) { // when entered the city&country
             searchWeatherNshow(query);//
             return false;
         }
 
         @Override
-        public boolean onQueryTextChange(String newText) {
-            //Log.d(TAG, "onQueryTextChange: "+newText);
+        public boolean onQueryTextChange(String newText) { // when typing strings
+
             searchInPossibleCities(newText);
 
             return false;
@@ -242,20 +216,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();//
 
-        /*noinspection SimplifiableIfStatement
-        if (id == R.id.menu_search) {
-            return true;
-        }*/
+        int id = item.getItemId();//
 
         searchWeatherNshow(possibleCities.get(id));//
 
         return super.onOptionsItemSelected(item);
-
     }
 
 }

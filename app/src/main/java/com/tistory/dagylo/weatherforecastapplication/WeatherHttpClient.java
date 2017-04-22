@@ -38,8 +38,9 @@ public class WeatherHttpClient {
         try {
             String url = BASE_URL + location + APP_ID;
 
-            if (lang != null)
+            if (lang != null){
                 url = url + "&lang=" + lang;
+            }
 
             httpURLConnection = (HttpURLConnection) ( new URL(url)).openConnection();
             httpURLConnection.setRequestMethod("GET");
@@ -53,8 +54,9 @@ public class WeatherHttpClient {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
 
-            while (  (line = bufferedReader.readLine()) != null )
+            while (  (line = bufferedReader.readLine()) != null ){
                 buffer.append(line + "\r\n");
+            }
 
             inputStream.close();
             httpURLConnection.disconnect();
@@ -83,8 +85,9 @@ public class WeatherHttpClient {
             // Forecast
             String url = BASE_FORECAST_URL + location + APP_ID;
 
-            if (lang != null)
+            if (lang != null) {
                 url = url + "&lang=" + lang;
+            }
 
             url = url + "&cnt=" + forecastDayNum;
             httpURLConnection = (HttpURLConnection) ( new URL(url)).openConnection();

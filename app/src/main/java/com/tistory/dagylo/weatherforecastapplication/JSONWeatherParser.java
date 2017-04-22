@@ -16,9 +16,6 @@
 
 package com.tistory.dagylo.weatherforecastapplication;
 
-
-
-
 import com.tistory.dagylo.weatherforecastapplication.model.DayForecast;
 import com.tistory.dagylo.weatherforecastapplication.model.Location;
 import com.tistory.dagylo.weatherforecastapplication.model.Weather;
@@ -27,7 +24,6 @@ import com.tistory.dagylo.weatherforecastapplication.model.WeatherForecast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class JSONWeatherParser {
     // Today's Weather

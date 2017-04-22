@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <include
@@ -18,7 +19,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="12dp"
         tools:context="com.tistory.dagylo.forecastapp.MainActivity">
 
         <TextView
@@ -27,8 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="0dp"
-            android:paddingBottom="0dp"
             android:textSize="20dp"/>
 
         <RelativeLayout
@@ -40,9 +39,11 @@
 
             <TextView
                 android:id="@+id/temp"
-                style="@style/tempStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="#FF9933"
+                android:textStyle="normal"
+                android:textSize="160dp"/>
 
             <TextView
                 android:id="@+id/unittemp"
@@ -58,8 +59,8 @@
         <!--  Image weather condition -->
         <ImageView
             android:id="@+id/condIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_toRightOf="@+id/skydesc"/>
 
         <TextView
@@ -80,13 +81,14 @@
         android:layout_weight="6" >
 
         <android.support.v4.view.PagerTitleStrip
+            style="@style/PagerTitleStripTextAppearance"
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="#E6E6E6"
+            android:background="@drawable/background"
             android:paddingBottom="4dp"
-            android:paddingTop="16dp" />
+            android:paddingTop="4dp" />
 
     </android.support.v4.view.ViewPager>
 

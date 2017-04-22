@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:gravity="center"
     android:orientation="vertical"
     android:layout_weight="1">
 
     <!--  Image weather condition -->
     <ImageView android:id="@+id/forCondIcon"
-        android:layout_height="150dp"
-        android:layout_width="150dp" />
+        android:layout_height="140dp"
+        android:layout_width="140dp" />
 
     <TextView
         android:id="@+id/skydescForecast"
