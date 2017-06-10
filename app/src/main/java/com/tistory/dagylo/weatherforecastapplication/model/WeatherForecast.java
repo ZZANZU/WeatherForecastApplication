@@ -15,7 +15,6 @@
  */
 package com.tistory.dagylo.weatherforecastapplication.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
